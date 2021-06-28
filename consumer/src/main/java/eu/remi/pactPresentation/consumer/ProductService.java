@@ -27,6 +27,7 @@ public class ProductService {
   }
 
   public Product getProduct(String id) {
+    //TODO here errors are to happen (call products instead of product)
     return restTemplate.getForEntity("/product/{id}", Product.class, id).getBody();
   }
 }
