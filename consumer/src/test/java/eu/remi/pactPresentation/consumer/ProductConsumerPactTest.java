@@ -7,6 +7,9 @@ import au.com.dius.pact.consumer.junit5.PactConsumerTestExt;
 import au.com.dius.pact.consumer.junit5.PactTestFor;
 import au.com.dius.pact.core.model.RequestResponsePact;
 import au.com.dius.pact.core.model.annotations.Pact;
+import au.com.dius.pact.provider.junitsupport.loader.PactBroker;
+import au.com.dius.pact.provider.junitsupport.loader.PactBrokerAuth;
+import au.com.dius.pact.provider.junitsupport.loader.PactUrl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -23,12 +26,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(PactConsumerTestExt.class)
+//@PactBroker(host = "localhost:8000",
+////    tags = {"test"},
+//    scheme = "http",
+////    enablePendingPacts = "true",
+//    providerTags = "master",
+//    authentication = @PactBrokerAuth(username = "pact_workshop", password = "pact_workshop") )
 public class ProductConsumerPactTest {
 
   @Pact(consumer = "FrontendApplication", provider = "ProductService")
-  RequestResponsePact getAllProducts(PactDslWithProvider builder) {
-    return builder.given("products exist")
-        .uponReceiving("get all products")
+  RequestResponsePact getAllProducts(PactDslWithProvider builder) { //ime metode je to, kar daš v @PactTestFor anotacijo na testu
+    return builder.given("products exist") //to se zapiše v json kot "interactions.providerStates.name"
+        .uponReceiving("get all products") //to se zapiše v json kot "interactions.description"
         .method("GET")
         .path("/products")
         .willRespondWith()
@@ -86,7 +95,7 @@ public class ProductConsumerPactTest {
   }
 
   @Test
-  @PactTestFor(pactMethod = "getAllProducts")
+  @PactTestFor(pactMethod = "getAllProducts")  //ime metode s @Pact anotacijo.... ustvaril bo primeren MockServer
   void getAllProducts_whenProductsExist(MockServer mockServer) {
     Product product = new Product();
     product.setId("09");
@@ -136,7 +145,8 @@ public class ProductConsumerPactTest {
         .rootUri(mockServer.getUrl())
         .build();
 
-    HttpClientErrorException e = assertThrows(HttpClientErrorException.class,
+    HttpClientErrorException e = assertThrows(
+        HttpClientErrorException.class,
         () -> new ProductService(restTemplate).getProduct("11"));
     assertEquals(404, e.getRawStatusCode());
   }
