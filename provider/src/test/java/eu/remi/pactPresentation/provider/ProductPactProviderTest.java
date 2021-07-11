@@ -5,7 +5,8 @@ import au.com.dius.pact.provider.junit5.PactVerificationContext;
 import au.com.dius.pact.provider.junit5.PactVerificationInvocationContextProvider;
 import au.com.dius.pact.provider.junitsupport.Provider;
 import au.com.dius.pact.provider.junitsupport.State;
-import au.com.dius.pact.provider.junitsupport.loader.PactFolder;
+import au.com.dius.pact.provider.junitsupport.loader.PactBroker;
+import au.com.dius.pact.provider.junitsupport.loader.PactBrokerAuth;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestTemplate;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,7 +22,13 @@ import java.util.Optional;
 import static org.mockito.Mockito.when;
 
 @Provider("ProductService")
-@PactFolder("pacts")
+//@PactFolder("pacts")
+@PactBroker(
+    host = "localhost",
+    port = "8000",
+    authentication = @PactBrokerAuth(username = "remi", password = "remi")
+)
+
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ProductPactProviderTest {
@@ -43,11 +50,6 @@ public class ProductPactProviderTest {
     context.verifyInteraction();
   }
 
-  /* v @state je to, kar si dal v .given, ko si ustvarjal s @Pact anotacijo na testih consumerja
-     in se je zapisalo v "interactions.providerStates.name".
-     Iz jsona bo povleklo, kaj je bilo klicano in kaj bi moralo dobiti nazaj. Preverilo se bo,
-     da dejansko reagira na ta klic in da vrne nazaj točno to (zraven je pripadajoči matcher)
-  */
   @State("products exist")
   void toProductsExistState() {
     when(productRepository.fetchAll()).thenReturn(

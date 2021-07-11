@@ -26,12 +26,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(PactConsumerTestExt.class)
-//@PactBroker(host = "localhost:8000",
-////    tags = {"test"},
-//    scheme = "http",
-////    enablePendingPacts = "true",
-//    providerTags = "master",
-//    authentication = @PactBrokerAuth(username = "pact_workshop", password = "pact_workshop") )
 public class ProductConsumerPactTest {
 
   @Pact(consumer = "FrontendApplication", provider = "ProductService")

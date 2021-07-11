@@ -77,8 +77,8 @@
                 <version>4.1.7</version>
                 <configuration>
                     <pactBrokerUrl>http://localhost:8000</pactBrokerUrl>
-                    <pactBrokerUsername>pact_workshop</pactBrokerUsername>
-                    <pactBrokerPassword>pact_workshop</pactBrokerPassword>
+                    <pactBrokerUsername>remi</pactBrokerUsername>
+                    <pactBrokerPassword>remi</pactBrokerPassword>
                 </configuration>
             </plugin>
         </plugins>
