@@ -11,37 +11,37 @@ import java.util.stream.IntStream;
 @Component
 public class ConsoleInterface implements CommandLineRunner {
 
-  private final ProductService productService;
+  private final EventService eventService;
 
-  private List<Product> products;
+  private List<Event> events;
 
   @Autowired
-  ConsoleInterface(ProductService productService) {
-    this.productService = productService;
+  ConsoleInterface(EventService eventService) {
+    this.eventService = eventService;
   }
 
   @Override
   public void run(String... args) {
     Scanner scanner = new Scanner(System.in);
     while (true) {
-      printAllProducts();
+      printAllEvents();
       Integer choice = getUserChoice(scanner);
-      if (choice == null || choice <= 0 || choice > products.size()) {
+      if (choice == null || choice <= 0 || choice > events.size()) {
         System.out.println("Exiting...");
         break;
       }
-      printProduct(choice);
+      printEvent(choice);
     }
   }
 
-  private void printAllProducts() {
-    products = productService.getAllProducts();
-    System.out.println("\n\nProducts\n--------");
-    IntStream.range(0, products.size())
+  private void printAllEvents() {
+    events = eventService.getAllEvents();
+    System.out.println("\n\nEvents\n--------");
+    IntStream.range(0, events.size())
         .forEach(index -> System.out.println(String.format(
             "%d) %s",
             index + 1,
-            products.get(index).getName())));
+            events.get(index).getName())));
   }
 
   private Integer getUserChoice(Scanner scanner) {
@@ -50,12 +50,12 @@ public class ConsoleInterface implements CommandLineRunner {
     return parseChoice(choice);
   }
 
-  private void printProduct(int index) {
-    String id = products.get(index - 1).getId();
-    Product product = productService.getProduct(id);
+  private void printEvent(int index) {
+    String id = events.get(index - 1).getId();
+    Event event = eventService.getEvent(id);
 
-    System.out.println("Product Details\n---------------");
-    System.out.println(product);
+    System.out.println("Event Details\n---------------");
+    System.out.println(event);
   }
 
   private Integer parseChoice(String choice) {

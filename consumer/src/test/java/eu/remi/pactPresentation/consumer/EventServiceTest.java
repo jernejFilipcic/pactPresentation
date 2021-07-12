@@ -15,9 +15,9 @@ import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class ProductServiceTest {
+class EventServiceTest {
   private WireMockServer wireMockServer;
-  private ProductService productService;
+  private EventService eventService;
 
   @BeforeEach
   void setUp() {
@@ -29,7 +29,7 @@ class ProductServiceTest {
         .rootUri(wireMockServer.baseUrl())
         .build();
 
-    productService = new ProductService(restTemplate);
+    eventService = new EventService(restTemplate);
   }
 
   @AfterEach
@@ -38,36 +38,36 @@ class ProductServiceTest {
   }
 
   @Test
-  void getAllProducts() {
-    wireMockServer.stubFor(get(urlPathEqualTo("/products"))
+  void getAllEvents() {
+    wireMockServer.stubFor(get(urlPathEqualTo("/events"))
         .willReturn(aResponse()
             .withStatus(200)
             .withHeader("Content-Type", "application/json")
             .withBody("[" +
-                "{\"id\":\"9\",\"type\":\"CREDIT_CARD\",\"name\":\"GEM Visa\",\"version\":\"v2\"},"+
-                "{\"id\":\"10\",\"type\":\"CREDIT_CARD\",\"name\":\"28 Degrees\",\"version\":\"v1\"}"+
+                "{\"id\":\"1111\",\"sportId\":\"sr:sport:1\",\"name\":\"Kostabona vs Puce\"},"+
+                "{\"id\":\"2222\",\"sportId\":\"sr:sport:1\",\"name\":\"Lopar vs Babici\"}"+
                 "]")));
 
-    List<Product> expected = List.of(new Product("9", "CREDIT_CARD", "GEM Visa", "v2"),
-        new Product("10", "CREDIT_CARD", "28 Degrees", "v1"));
+    List<Event> expected = List.of(new Event("1111", "sr:sport:1", "Kostabona vs Puce"),
+        new Event("2222", "sr:sport:1", "Lopar vs Babici"));
 
-    List<Product> products = productService.getAllProducts();
+    List<Event> events = eventService.getAllEvents();
 
-    assertEquals(expected, products);
+    assertEquals(expected, events);
   }
 
   @Test
-  void getProductById() {
-    wireMockServer.stubFor(get(urlPathEqualTo("/products/50"))
+  void getEventById() {
+    wireMockServer.stubFor(get(urlPathEqualTo("/events/1111"))
         .willReturn(aResponse()
             .withStatus(200)
             .withHeader("Content-Type", "application/json")
-            .withBody("{\"id\":\"50\",\"type\":\"CREDIT_CARD\",\"name\":\"28 Degrees\",\"version\":\"v1\"}")));
+            .withBody("{\"id\":\"1111\",\"sportId\":\"sr:sport:1\",\"name\":\"Kostabona vs Puce\"}")));
 
-    Product expected = new Product("50", "CREDIT_CARD", "28 Degrees", "v1");
+    Event expected = new Event("1111", "sr:sport:1", "Kostabona vs Puce");
 
-    Product product = productService.getProduct("50");
+    Event event = eventService.getEvent("1111");
 
-    assertEquals(expected, product);
+    assertEquals(expected, event);
   }
 }

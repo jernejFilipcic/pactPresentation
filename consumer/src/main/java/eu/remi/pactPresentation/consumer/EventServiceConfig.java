@@ -7,10 +7,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
 
 @Configuration
-public class ProductServiceConfig {
+public class EventServiceConfig {
 
     @Bean
-    RestTemplate productRestTemplate(@Value("${provider.port:8085}") int port) {
+    RestTemplate eventRestTemplate(@Value("${provider.port:8085}") int port) {
         return new RestTemplateBuilder().rootUri(String.format("http://localhost:%d", port)).build();
     }
 }

@@ -1,0 +1,172 @@
+{
+  "provider": {
+    "name": "EventService"
+  },
+  "consumer": {
+    "name": "FrontendApplication"
+  },
+  "interactions": [
+    {
+      "description": "get event with ID 1111",
+      "request": {
+        "method": "GET",
+        "path": "/event/1111"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": {
+          "sportId": "sr:sport:1",
+          "name": "Kostabona vs Puce",
+          "id": "sr:match:1234"
+        },
+        "matchingRules": {
+          "body": {
+            "$.id": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.sportId": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$.name": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            }
+          }
+        }
+      },
+      "providerStates": [
+        {
+          "name": "event with ID 1111 exists"
+        }
+      ]
+    },
+    {
+      "description": "get event with ID 2222",
+      "request": {
+        "method": "GET",
+        "path": "/event/11"
+      },
+      "response": {
+        "status": 404
+      },
+      "providerStates": [
+        {
+          "name": "event with ID 2222 does not exist"
+        }
+      ]
+    },
+    {
+      "description": "get all events",
+      "request": {
+        "method": "GET",
+        "path": "/events"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": [
+          {
+            "sportId": "sr:sport:1",
+            "name": "Kostabona vs Puce",
+            "id": "sr:match:1234"
+          },
+          {
+            "sportId": "sr:sport:1",
+            "name": "Kostabona vs Puce",
+            "id": "sr:match:1234"
+          }
+        ],
+        "matchingRules": {
+          "body": {
+            "$": {
+              "matchers": [
+                {
+                  "match": "type",
+                  "min": 2
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[*].id": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[*].sportId": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            },
+            "$[*].name": {
+              "matchers": [
+                {
+                  "match": "type"
+                }
+              ],
+              "combine": "AND"
+            }
+          }
+        }
+      },
+      "providerStates": [
+        {
+          "name": "events exist"
+        }
+      ]
+    },
+    {
+      "description": "get all events",
+      "request": {
+        "method": "GET",
+        "path": "/events"
+      },
+      "response": {
+        "status": 200,
+        "headers": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
+        "body": [
+
+        ]
+      },
+      "providerStates": [
+        {
+          "name": "no events exist"
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "pactSpecification": {
+      "version": "3.0.0"
+    },
+    "pact-jvm": {
+      "version": "4.1.7"
+    }
+  }
+}

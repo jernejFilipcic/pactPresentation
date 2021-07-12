@@ -9,25 +9,25 @@ import org.springframework.web.client.RestTemplate;
 import java.util.List;
 
 @Service
-public class ProductService {
+public class EventService {
 
   private final RestTemplate restTemplate;
 
   @Autowired
-  public ProductService(RestTemplate restTemplate) {
+  public EventService(RestTemplate restTemplate) {
     this.restTemplate = restTemplate;
   }
 
-  public List<Product> getAllProducts() {
+  public List<Event> getAllEvents() {
     return restTemplate.exchange(
-        "/products",
+        "/events",
         HttpMethod.GET,
         null,
-        new ParameterizedTypeReference<List<Product>>() {}).getBody();
+        new ParameterizedTypeReference<List<Event>>() {}).getBody();
   }
 
-  public Product getProduct(String id) {
-    //TODO here errors are to happen (call products instead of product)
-    return restTemplate.getForEntity("/product/{id}", Product.class, id).getBody();
+  public Event getEvent(String id) {
+    //TODO here errors are to happen (call events instead of event)
+    return restTemplate.getForEntity("/event/{id}", Event.class, id).getBody();
   }
 }

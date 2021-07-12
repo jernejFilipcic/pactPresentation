@@ -5,8 +5,7 @@ import au.com.dius.pact.provider.junit5.PactVerificationContext;
 import au.com.dius.pact.provider.junit5.PactVerificationInvocationContextProvider;
 import au.com.dius.pact.provider.junitsupport.Provider;
 import au.com.dius.pact.provider.junitsupport.State;
-import au.com.dius.pact.provider.junitsupport.loader.PactBroker;
-import au.com.dius.pact.provider.junitsupport.loader.PactBrokerAuth;
+import au.com.dius.pact.provider.junitsupport.loader.PactFolder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestTemplate;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,23 +20,23 @@ import java.util.Optional;
 
 import static org.mockito.Mockito.when;
 
-@Provider("ProductService")
-//@PactFolder("pacts")
-@PactBroker(
-    host = "localhost",
-    port = "8000",
-    authentication = @PactBrokerAuth(username = "remi", password = "remi")
-)
+@Provider("EventService")
+@PactFolder("pacts")
+//@PactBroker(
+//    host = "localhost",
+//    port = "8000",
+//    authentication = @PactBrokerAuth(username = "remi", password = "remi")
+//)
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class ProductPactProviderTest {
+public class EventPactProviderTest {
 
   @LocalServerPort
   int port;
 
   @MockBean
-  private ProductRepository productRepository;
+  private EventRepository eventRepository;
 
   @BeforeEach
   void setUp(PactVerificationContext context) {
@@ -50,32 +49,27 @@ public class ProductPactProviderTest {
     context.verifyInteraction();
   }
 
-  @State("products exist")
-  void toProductsExistState() {
-    when(productRepository.fetchAll()).thenReturn(
-        List.of(
-            new Product("09", "CREDIT_CARD", "Gem Visa", "v1"),
-            new Product("10", "CREDIT_CARD", "28 Degrees", "v1")));
+  @State("events exist")
+  void toEventsExistState() {
+    when(eventRepository.fetchAll()).thenReturn(
+        List.of(new Event("1111", "sr:sport:1", "Kostabona vs Puce"),
+            new Event("2222", "sr:sport:1", "Lopar vs Babici")));
   }
 
   @State({
-      "no products exist",
-      "product with ID 11 does not exist"
+      "no events exist",
+      "event with ID 2222 does not exist"
   })
-  void toNoProductsExistState() {
-    when(productRepository.fetchAll()).thenReturn(Collections.emptyList());
+  void toNoEventsExistState() {
+    when(eventRepository.fetchAll()).thenReturn(Collections.emptyList());
   }
 
-  @State("product with ID 10 exists")
-  void toProductWithIdTenExistsState() {
-    when(productRepository.getById("10")).thenReturn(Optional.of(new Product(
-        "10",
-        "CREDIT_CARD",
-        "28 Degrees",
-        "v1")));
+  @State("event with ID 1111 exists")
+  void toEventWithId1111ExistsState() {
+    when(eventRepository.getById("1111")).thenReturn(Optional.of(new Event("1111", "sr:sport:1", "Kostabona vs Puce")));
   }
 
-  @State("product with ID 11 does not exist")
-  void toProductWithIdElevenDoesNotExistState() {}
+  @State("event with ID 2222 does not exist")
+  void toEventWithId2222DoesNotExistState() {}
 
 }
