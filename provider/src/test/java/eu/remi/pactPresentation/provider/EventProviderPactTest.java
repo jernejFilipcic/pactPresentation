@@ -20,7 +20,7 @@ import java.util.Optional;
 
 import static org.mockito.Mockito.when;
 
-@Provider("EventService")
+@Provider("EventProvider")
 @PactFolder("pacts")
 //@PactBroker(
 //    host = "localhost",
@@ -30,7 +30,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class EventPactProviderTest {
+public class EventProviderPactTest {
 
   @LocalServerPort
   int port;

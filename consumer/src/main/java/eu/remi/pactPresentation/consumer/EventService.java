@@ -27,7 +27,6 @@ public class EventService {
   }
 
   public Event getEvent(String id) {
-    //TODO here errors are to happen (call events instead of event)
     return restTemplate.getForEntity("/events/{id}", Event.class, id).getBody();
   }
 }

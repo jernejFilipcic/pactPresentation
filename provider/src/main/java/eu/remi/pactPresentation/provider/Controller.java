@@ -19,12 +19,12 @@ public class Controller {
         this.eventRepository = eventRepository;
     }
 
-    @GetMapping("findEvents")
+    @GetMapping("events")
     public List<Event> getAllEvents() {
         return eventRepository.fetchAll();
     }
 
-    @GetMapping("findEvents/{id}")
+    @GetMapping("events/{id}")
     public ResponseEntity<Event> getEventById(@PathVariable("id") String id) {
         Optional<Event> event = eventRepository.getById(id);
 

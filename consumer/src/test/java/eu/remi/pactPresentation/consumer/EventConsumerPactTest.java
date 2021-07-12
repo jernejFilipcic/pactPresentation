@@ -25,10 +25,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @ExtendWith(PactConsumerTestExt.class)
 public class EventConsumerPactTest {
 
-  @Pact(consumer = "FrontendApplication", provider = "EventService")
-  RequestResponsePact getAllEvents(PactDslWithProvider builder) { //ime metode je to, kar daš v @PactTestFor anotacijo na testu
-    return builder.given("events exist") //to se zapiše v json kot "interactions.providerStates.name"
-        .uponReceiving("get all events") //to se zapiše v json kot "interactions.description"
+  @Pact(consumer = "FrontendApplication", provider = "EventProvider")
+  RequestResponsePact getAllEvents(PactDslWithProvider builder) {
+    return builder.given("events exist")
+        .uponReceiving("get all events")
         .method("GET")
         .path("/events")
         .willRespondWith()
@@ -44,7 +44,7 @@ public class EventConsumerPactTest {
         .toPact();
   }
 
-  @Pact(consumer = "FrontendApplication", provider = "EventService")
+  @Pact(consumer = "FrontendApplication", provider = "EventProvider")
   RequestResponsePact noEventsExist(PactDslWithProvider builder) {
     return builder.given("no events exist")
         .uponReceiving("get all events")
@@ -57,7 +57,7 @@ public class EventConsumerPactTest {
         .toPact();
   }
 
-  @Pact(consumer = "FrontendApplication", provider = "EventService")
+  @Pact(consumer = "FrontendApplication", provider = "EventProvider")
   RequestResponsePact getOneEvent(PactDslWithProvider builder) {
     return builder.given("event with ID 1111 exists")
         .uponReceiving("get event with ID 1111")
@@ -74,7 +74,7 @@ public class EventConsumerPactTest {
         .toPact();
   }
 
-  @Pact(consumer = "FrontendApplication", provider = "EventService")
+  @Pact(consumer = "FrontendApplication", provider = "EventProvider")
   RequestResponsePact eventDoesNotExist(PactDslWithProvider builder) {
     return builder.given("event with ID 2222 does not exist")
         .uponReceiving("get event with ID 2222")
@@ -86,7 +86,7 @@ public class EventConsumerPactTest {
   }
 
   @Test
-  @PactTestFor(pactMethod = "getAllEvents")  //ime metode s @Pact anotacijo.... ustvaril bo primeren MockServer
+  @PactTestFor(pactMethod = "getAllEvents")
   void getAllEvents_whenEventsExist(MockServer mockServer) {
     Event event = new Event();
     event.setId("sr:match:1234");

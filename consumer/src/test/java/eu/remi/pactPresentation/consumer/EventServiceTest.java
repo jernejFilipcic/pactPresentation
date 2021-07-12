@@ -21,7 +21,7 @@ class EventServiceTest {
 
   @BeforeEach
   void setUp() {
-    wireMockServer = new WireMockServer(options().dynamicPort());
+    wireMockServer = new WireMockServer(options().port(1234));
 
     wireMockServer.start();
 
@@ -39,16 +39,18 @@ class EventServiceTest {
 
   @Test
   void getAllEvents() {
-    wireMockServer.stubFor(get(urlPathEqualTo("/events"))
+    wireMockServer.stubFor(get(urlPathEqualTo("/events"))  //we used the same endpoint as we defined it in EventService, not necessarily the right one!
         .willReturn(aResponse()
             .withStatus(200)
             .withHeader("Content-Type", "application/json")
-            .withBody("[" +
+            .withBody(
+                "[" +
                 "{\"id\":\"1111\",\"sportId\":\"sr:sport:1\",\"name\":\"Kostabona vs Puce\"},"+
                 "{\"id\":\"2222\",\"sportId\":\"sr:sport:1\",\"name\":\"Lopar vs Babici\"}"+
                 "]")));
 
-    List<Event> expected = List.of(new Event("1111", "sr:sport:1", "Kostabona vs Puce"),
+    List<Event> expected = List.of(
+        new Event("1111", "sr:sport:1", "Kostabona vs Puce"),
         new Event("2222", "sr:sport:1", "Lopar vs Babici"));
 
     List<Event> events = eventService.getAllEvents();
