@@ -62,7 +62,7 @@ public class EventConsumerPactTest {
     return builder.given("event with ID 1111 exists")
         .uponReceiving("get event with ID 1111")
         .method("GET")
-        .path("/event/1111")
+        .path("/events/1111")
         .willRespondWith()
         .status(200)
         .headers(Map.of("Content-Type", "application/json; charset=utf-8"))
@@ -79,7 +79,7 @@ public class EventConsumerPactTest {
     return builder.given("event with ID 2222 does not exist")
         .uponReceiving("get event with ID 2222")
         .method("GET")
-        .path("/event/11")
+        .path("/events/11")
         .willRespondWith()
         .status(404)
         .toPact();

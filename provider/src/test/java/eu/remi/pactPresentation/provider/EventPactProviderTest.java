@@ -69,7 +69,7 @@ public class EventPactProviderTest {
     when(eventRepository.getById("1111")).thenReturn(Optional.of(new Event("1111", "sr:sport:1", "Kostabona vs Puce")));
   }
 
-  @State("event with ID 2222 does not exist")
+  @State("event with ID vv2222 does not exist")
   void toEventWithId2222DoesNotExistState() {}
 
 }
