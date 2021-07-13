@@ -47,6 +47,8 @@
             <artifactId>spring-boot-starter-web</artifactId>
             <version>2.5.0</version>
         </dependency>
+
+        <!--        PACT             -->
         <dependency>
             <groupId>au.com.dius.pact.consumer</groupId>
             <artifactId>java8</artifactId>
