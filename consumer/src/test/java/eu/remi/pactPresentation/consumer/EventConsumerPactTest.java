@@ -46,7 +46,7 @@ public class EventConsumerPactTest {
 
 //  @Pact(consumer = "MyConsumer", provider = "MyProvider")
 //  RequestResponsePact noEventsExist(PactDslWithProvider builder) { //same request, different response because of different provider state
-//    return builder.given("no events exist")
+//    return builder.given("no events exist") //provider states are usually set by mock objects that the provider is referring to
 //        .uponReceiving("get all events")
 //        .method("GET")
 //        .path("/events")
