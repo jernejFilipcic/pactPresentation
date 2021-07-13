@@ -75,11 +75,11 @@ public class EventConsumerPactTest {
 //  }
 //
 //  @Pact(consumer = "MyConsumer", provider = "MyProvider")
-//  RequestResponsePact eventDoesNotExist(PactDslWithProvider builder) {
-//    return builder.given("event with ID 2222 does not exist")   //could use "no events exist", since it is the same state, but we give different names for verbosity
-//        .uponReceiving("get event with ID 2222 when it does not exist should return status code 404")
+//  RequestResponsePact event1111DoesNotExist(PactDslWithProvider builder) {
+//    return builder.given("event with ID 1111 does not exist")   //could use "no events exist", since it is the same state, but we give different names for verbosity
+//        .uponReceiving("get event with ID 1111 when it does not exist should return status code 404")
 //        .method("GET")
-//        .path("/findEvents/2222")
+//        .path("/findEvents/1111")
 //        .willRespondWith()
 //        .status(404)
 //        .toPact();
@@ -130,7 +130,7 @@ public class EventConsumerPactTest {
 //  }
 //
 //  @Test
-//  @PactTestFor(pactMethod = "eventDoesNotExist")
+//  @PactTestFor(pactMethod = "event1111DoesNotExist")
 //  void getEventById_whenEventWithId1111DoesNotExist(MockServer mockServer) {
 //    RestTemplate restTemplate = new RestTemplateBuilder()
 //        .rootUri(mockServer.getUrl())

@@ -60,7 +60,7 @@ public class EventProviderPactTest {
 
   @State({    //note the two states! no need for 1:1
       "no events exist",
-      "event with ID 2222 does not exist"
+      "event with ID 1111 does not exist"
   })
   void toNoEventsExistState() {
 //    when(eventRepository.fetchAll()).thenReturn(Collections.emptyList());
