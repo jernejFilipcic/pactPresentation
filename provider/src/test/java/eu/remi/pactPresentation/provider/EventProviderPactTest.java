@@ -58,7 +58,7 @@ public class EventProviderPactTest {
 //            new Event("2222", "sr:sport:1", "Lopar vs Babici")));
   }
 
-  @State({
+  @State({    //note the two states! no need for 1:1
       "no events exist",
       "event with ID 2222 does not exist"
   })
@@ -71,7 +71,5 @@ public class EventProviderPactTest {
 //    when(eventRepository.getById("1111")).thenReturn(Optional.of(new Event("1111", "sr:sport:1", "Kostabona vs Puce")));
   }
 
-  @State("event with ID vv2222 does not exist")
-  void toEventWithId2222DoesNotExistState() {}
 
 }

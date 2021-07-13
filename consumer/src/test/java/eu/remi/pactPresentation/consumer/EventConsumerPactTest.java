@@ -28,7 +28,7 @@ public class EventConsumerPactTest {
   @Pact(consumer = "MyConsumer", provider = "MyProvider") //these are the methods that set the contracts, they are written in the pact file and they are tested against the provider
   RequestResponsePact getAllEvents(PactDslWithProvider builder) {
     return builder.given("events exist") //not bdd
-        .uponReceiving("get all events when events exist") //give a description that is verbose enough to identify the failed tests
+        .uponReceiving("get all events when events exist should return all events") //give a description that is verbose enough to identify the failed tests
         .method("GET")
         .path("/events")
         .willRespondWith()
@@ -47,7 +47,7 @@ public class EventConsumerPactTest {
   @Pact(consumer = "MyConsumer", provider = "MyProvider")
   RequestResponsePact getOneEvent(PactDslWithProvider builder) {
     return builder.given("event with ID 1111 exists")
-        .uponReceiving("get event with ID 1111 when it exists")
+        .uponReceiving("get event with ID 1111 when it exists should return it")
         .method("GET")
         .path("/events/1111")
         .willRespondWith()
@@ -64,7 +64,7 @@ public class EventConsumerPactTest {
 //  @Pact(consumer = "MyConsumer", provider = "MyProvider")
 //  RequestResponsePact noEventsExist(PactDslWithProvider builder) { //same request, different response because of different provider state
 //    return builder.given("no events exist") //provider states are usually set by mock objects that the provider is referring to
-//        .uponReceiving("get all events when no events exist")
+//        .uponReceiving("get all events when no events exist should return empty list")
 //        .method("GET")
 //        .path("/findEvents")
 //        .willRespondWith()
@@ -76,17 +76,17 @@ public class EventConsumerPactTest {
 //
 //  @Pact(consumer = "MyConsumer", provider = "MyProvider")
 //  RequestResponsePact eventDoesNotExist(PactDslWithProvider builder) {
-//    return builder.given("event with ID 2222 does not exist")
-//        .uponReceiving("get event with ID 2222 when it does not exist")
+//    return builder.given("event with ID 2222 does not exist")   //could use "no events exist", since it is the same state, but we give different names for verbosity
+//        .uponReceiving("get event with ID 2222 when it does not exist should return status code 404")
 //        .method("GET")
-//        .path("/findEvents/1111")//TODO CHECK!
+//        .path("/findEvents/2222")
 //        .willRespondWith()
 //        .status(404)
 //        .toPact();
 //  }
 
   @Test
-  @PactTestFor(pactMethod = "getAllEvents") //the name of the @Pac annotated method, that sets the mockserver
+  @PactTestFor(pactMethod = "getAllEvents") //the name of the @Pact annotated method, that sets the mockserver
   void getAllEvents_whenEventsExist(MockServer mockServer) {
     Event event = new Event();
     event.setId("sr:match:1234");
