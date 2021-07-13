@@ -51,9 +51,9 @@ public class EventProviderPactTest {
 
   @State("events exist")
   void toEventsExistState() {
-    when(eventRepository.fetchAll()).thenReturn(
-        List.of(new Event("1111", "sr:sport:1", "Kostabona vs Puce"),
-            new Event("2222", "sr:sport:1", "Lopar vs Babici")));
+//    when(eventRepository.fetchAll()).thenReturn(
+//        List.of(new Event("1111", "sr:sport:1", "Kostabona vs Puce"),
+//            new Event("2222", "sr:sport:1", "Lopar vs Babici")));
   }
 
   @State({
@@ -61,12 +61,12 @@ public class EventProviderPactTest {
       "event with ID 2222 does not exist"
   })
   void toNoEventsExistState() {
-    when(eventRepository.fetchAll()).thenReturn(Collections.emptyList());
+//    when(eventRepository.fetchAll()).thenReturn(Collections.emptyList());
   }
 
   @State("event with ID 1111 exists")
   void toEventWithId1111ExistsState() {
-    when(eventRepository.getById("1111")).thenReturn(Optional.of(new Event("1111", "sr:sport:1", "Kostabona vs Puce")));
+//    when(eventRepository.getById("1111")).thenReturn(Optional.of(new Event("1111", "sr:sport:1", "Kostabona vs Puce")));
   }
 
   @State("event with ID vv2222 does not exist")

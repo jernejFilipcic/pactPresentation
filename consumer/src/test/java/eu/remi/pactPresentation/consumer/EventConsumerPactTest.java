@@ -44,18 +44,18 @@ public class EventConsumerPactTest {
         .toPact();
   }
 
-  @Pact(consumer = "MyConsumer", provider = "MyProvider")
-  RequestResponsePact noEventsExist(PactDslWithProvider builder) { //same request, different response because of different provider state
-    return builder.given("no events exist")
-        .uponReceiving("get all events")
-        .method("GET")
-        .path("/events")
-        .willRespondWith()
-        .status(200)
-        .headers(Map.of("Content-Type", "application/json; charset=utf-8"))
-        .body("[]")
-        .toPact();
-  }
+//  @Pact(consumer = "MyConsumer", provider = "MyProvider")
+//  RequestResponsePact noEventsExist(PactDslWithProvider builder) { //same request, different response because of different provider state
+//    return builder.given("no events exist")
+//        .uponReceiving("get all events")
+//        .method("GET")
+//        .path("/events")
+//        .willRespondWith()
+//        .status(200)
+//        .headers(Map.of("Content-Type", "application/json; charset=utf-8"))
+//        .body("[]")
+//        .toPact();
+//  }
 
   @Pact(consumer = "MyConsumer", provider = "MyProvider")
   RequestResponsePact getOneEvent(PactDslWithProvider builder) {
@@ -74,16 +74,16 @@ public class EventConsumerPactTest {
         .toPact();
   }
 
-  @Pact(consumer = "MyConsumer", provider = "MyProvider")
-  RequestResponsePact eventDoesNotExist(PactDslWithProvider builder) {
-    return builder.given("event with ID 2222 does not exist")
-        .uponReceiving("get event with ID 2222")
-        .method("GET")
-        .path("/events/1111")
-        .willRespondWith()
-        .status(404)
-        .toPact();
-  }
+//  @Pact(consumer = "MyConsumer", provider = "MyProvider")
+//  RequestResponsePact eventDoesNotExist(PactDslWithProvider builder) {
+//    return builder.given("event with ID 2222 does not exist")
+//        .uponReceiving("get event with ID 2222")
+//        .method("GET")
+//        .path("/events/1111")
+//        .willRespondWith()
+//        .status(404)
+//        .toPact();
+//  }
 
   @Test
   @PactTestFor(pactMethod = "getAllEvents")
@@ -102,16 +102,16 @@ public class EventConsumerPactTest {
     assertEquals(expected, events);
   }
 
-  @Test
-  @PactTestFor(pactMethod = "noEventsExist")
-  void getAllEvents_whenNoEventsExist(MockServer mockServer) {
-    RestTemplate restTemplate = new RestTemplateBuilder()
-        .rootUri(mockServer.getUrl())
-        .build();
-    List<Event> events = new EventService(restTemplate).getAllEvents();
-
-    assertEquals(Collections.emptyList(), events);
-  }
+//  @Test
+//  @PactTestFor(pactMethod = "noEventsExist")
+//  void getAllEvents_whenNoEventsExist(MockServer mockServer) {
+//    RestTemplate restTemplate = new RestTemplateBuilder()
+//        .rootUri(mockServer.getUrl())
+//        .build();
+//    List<Event> events = new EventService(restTemplate).getAllEvents();
+//
+//    assertEquals(Collections.emptyList(), events);
+//  }
 
   @Test
   @PactTestFor(pactMethod = "getOneEvent")
@@ -129,16 +129,16 @@ public class EventConsumerPactTest {
     assertEquals(expected, event);
   }
 
-  @Test
-  @PactTestFor(pactMethod = "eventDoesNotExist")
-  void getEventById_whenEventWithId1111DoesNotExist(MockServer mockServer) {
-    RestTemplate restTemplate = new RestTemplateBuilder()
-        .rootUri(mockServer.getUrl())
-        .build();
-
-    HttpClientErrorException e = assertThrows(
-        HttpClientErrorException.class,
-        () -> new EventService(restTemplate).getEvent("1111"));
-    assertEquals(404, e.getRawStatusCode());
-  }
+//  @Test
+//  @PactTestFor(pactMethod = "eventDoesNotExist")
+//  void getEventById_whenEventWithId1111DoesNotExist(MockServer mockServer) {
+//    RestTemplate restTemplate = new RestTemplateBuilder()
+//        .rootUri(mockServer.getUrl())
+//        .build();
+//
+//    HttpClientErrorException e = assertThrows(
+//        HttpClientErrorException.class,
+//        () -> new EventService(restTemplate).getEvent("1111"));
+//    assertEquals(404, e.getRawStatusCode());
+//  }
 }
