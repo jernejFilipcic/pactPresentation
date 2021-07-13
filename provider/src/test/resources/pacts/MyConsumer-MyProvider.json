@@ -61,7 +61,7 @@
       "description": "get event with ID 2222",
       "request": {
         "method": "GET",
-        "path": "/events/11"
+        "path": "/events/1111"
       },
       "response": {
         "status": 404

@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @ExtendWith(PactConsumerTestExt.class)
 public class EventConsumerPactTest {
 
-  @Pact(consumer = "MyConsumer", provider = "MyProvider")
+  @Pact(consumer = "MyConsumer", provider = "MyProvider") //these are the methods that set the contracts, they are written in the pact file and they are tested against the provider
   RequestResponsePact getAllEvents(PactDslWithProvider builder) {
     return builder.given("events exist")
         .uponReceiving("get all events")
@@ -45,7 +45,7 @@ public class EventConsumerPactTest {
   }
 
   @Pact(consumer = "MyConsumer", provider = "MyProvider")
-  RequestResponsePact noEventsExist(PactDslWithProvider builder) {
+  RequestResponsePact noEventsExist(PactDslWithProvider builder) { //same request, different response because of different provider state
     return builder.given("no events exist")
         .uponReceiving("get all events")
         .method("GET")
@@ -79,7 +79,7 @@ public class EventConsumerPactTest {
     return builder.given("event with ID 2222 does not exist")
         .uponReceiving("get event with ID 2222")
         .method("GET")
-        .path("/events/11")
+        .path("/events/1111")
         .willRespondWith()
         .status(404)
         .toPact();
@@ -131,14 +131,14 @@ public class EventConsumerPactTest {
 
   @Test
   @PactTestFor(pactMethod = "eventDoesNotExist")
-  void getEventById_whenEventWithId11DoesNotExist(MockServer mockServer) {
+  void getEventById_whenEventWithId1111DoesNotExist(MockServer mockServer) {
     RestTemplate restTemplate = new RestTemplateBuilder()
         .rootUri(mockServer.getUrl())
         .build();
 
     HttpClientErrorException e = assertThrows(
         HttpClientErrorException.class,
-        () -> new EventService(restTemplate).getEvent("11"));
+        () -> new EventService(restTemplate).getEvent("1111"));
     assertEquals(404, e.getRawStatusCode());
   }
 }
