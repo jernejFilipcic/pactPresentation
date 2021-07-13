@@ -58,6 +58,7 @@
             <groupId>au.com.dius.pact.consumer</groupId>
             <artifactId>junit5</artifactId>
             <version>4.1.7</version>
+<!--            test scope -->
         </dependency>
         <dependency>
             <groupId>au.com.dius.pact.provider</groupId>

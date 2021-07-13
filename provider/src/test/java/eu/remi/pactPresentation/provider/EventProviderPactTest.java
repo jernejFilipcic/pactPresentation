@@ -5,6 +5,8 @@ import au.com.dius.pact.provider.junit5.PactVerificationContext;
 import au.com.dius.pact.provider.junit5.PactVerificationInvocationContextProvider;
 import au.com.dius.pact.provider.junitsupport.Provider;
 import au.com.dius.pact.provider.junitsupport.State;
+import au.com.dius.pact.provider.junitsupport.loader.PactBroker;
+import au.com.dius.pact.provider.junitsupport.loader.PactBrokerAuth;
 import au.com.dius.pact.provider.junitsupport.loader.PactFolder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestTemplate;
@@ -52,24 +54,24 @@ public class EventProviderPactTest {
   @State("events exist")  //in first tests, when are not using mocks, they are not used, just leave empty
   void toEventsExistState() {
 //    when(eventRepository.fetchAll()).thenReturn(
-//        List.of(new Event("1111", "sr:sport:1", "Kostabona vs Puce"),
+//        List.of(new Event("1111", "sr:sport:1", "Kostabona vs Puce"),  //possible false negatives if bad coordination with the consumer team, but much better than false positives
 //            new Event("2222", "sr:sport:1", "Lopar vs Babici")));
   }
 
-//  @State({
-//      "no events exist",
-//      "event with ID 2222 does not exist"
-//  })
-//  void toNoEventsExistState() {
+  @State({
+      "no events exist",
+      "event with ID 2222 does not exist"
+  })
+  void toNoEventsExistState() {
 //    when(eventRepository.fetchAll()).thenReturn(Collections.emptyList());
-//  }
+  }
 
   @State("event with ID 1111 exists")
   void toEventWithId1111ExistsState() {
 //    when(eventRepository.getById("1111")).thenReturn(Optional.of(new Event("1111", "sr:sport:1", "Kostabona vs Puce")));
   }
 
-//  @State("event with ID vv2222 does not exist")
-//  void toEventWithId2222DoesNotExistState() {}
+  @State("event with ID vv2222 does not exist")
+  void toEventWithId2222DoesNotExistState() {}
 
 }

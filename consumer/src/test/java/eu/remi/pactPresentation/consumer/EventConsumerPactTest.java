@@ -27,8 +27,8 @@ public class EventConsumerPactTest {
 
   @Pact(consumer = "MyConsumer", provider = "MyProvider") //these are the methods that set the contracts, they are written in the pact file and they are tested against the provider
   RequestResponsePact getAllEvents(PactDslWithProvider builder) {
-    return builder.given("events exist")
-        .uponReceiving("get all events")
+    return builder.given("events exist") //not bdd
+        .uponReceiving("get all events when events exist") //give a description that is verbose enough to identify the failed tests
         .method("GET")
         .path("/events")
         .willRespondWith()
@@ -44,23 +44,10 @@ public class EventConsumerPactTest {
         .toPact();
   }
 
-//  @Pact(consumer = "MyConsumer", provider = "MyProvider")
-//  RequestResponsePact noEventsExist(PactDslWithProvider builder) { //same request, different response because of different provider state
-//    return builder.given("no events exist") //provider states are usually set by mock objects that the provider is referring to
-//        .uponReceiving("get all events")
-//        .method("GET")
-//        .path("/events")
-//        .willRespondWith()
-//        .status(200)
-//        .headers(Map.of("Content-Type", "application/json; charset=utf-8"))
-//        .body("[]")
-//        .toPact();
-//  }
-
   @Pact(consumer = "MyConsumer", provider = "MyProvider")
   RequestResponsePact getOneEvent(PactDslWithProvider builder) {
     return builder.given("event with ID 1111 exists")
-        .uponReceiving("get event with ID 1111")
+        .uponReceiving("get event with ID 1111 when it exists")
         .method("GET")
         .path("/events/1111")
         .willRespondWith()
@@ -75,18 +62,31 @@ public class EventConsumerPactTest {
   }
 
 //  @Pact(consumer = "MyConsumer", provider = "MyProvider")
+//  RequestResponsePact noEventsExist(PactDslWithProvider builder) { //same request, different response because of different provider state
+//    return builder.given("no events exist") //provider states are usually set by mock objects that the provider is referring to
+//        .uponReceiving("get all events when no events exist")
+//        .method("GET")
+//        .path("/findEvents")
+//        .willRespondWith()
+//        .status(200)
+//        .headers(Map.of("Content-Type", "application/json; charset=utf-8"))
+//        .body("[]")
+//        .toPact();
+//  }
+//
+//  @Pact(consumer = "MyConsumer", provider = "MyProvider")
 //  RequestResponsePact eventDoesNotExist(PactDslWithProvider builder) {
 //    return builder.given("event with ID 2222 does not exist")
-//        .uponReceiving("get event with ID 2222")
+//        .uponReceiving("get event with ID 2222 when it does not exist")
 //        .method("GET")
-//        .path("/events/1111")
+//        .path("/findEvents/1111")//TODO CHECK!
 //        .willRespondWith()
 //        .status(404)
 //        .toPact();
 //  }
 
   @Test
-  @PactTestFor(pactMethod = "getAllEvents")
+  @PactTestFor(pactMethod = "getAllEvents") //the name of the @Pac annotated method, that sets the mockserver
   void getAllEvents_whenEventsExist(MockServer mockServer) {
     Event event = new Event();
     event.setId("sr:match:1234");
@@ -101,17 +101,6 @@ public class EventConsumerPactTest {
 
     assertEquals(expected, events);
   }
-
-//  @Test
-//  @PactTestFor(pactMethod = "noEventsExist")
-//  void getAllEvents_whenNoEventsExist(MockServer mockServer) {
-//    RestTemplate restTemplate = new RestTemplateBuilder()
-//        .rootUri(mockServer.getUrl())
-//        .build();
-//    List<Event> events = new EventService(restTemplate).getAllEvents();
-//
-//    assertEquals(Collections.emptyList(), events);
-//  }
 
   @Test
   @PactTestFor(pactMethod = "getOneEvent")
@@ -129,6 +118,17 @@ public class EventConsumerPactTest {
     assertEquals(expected, event);
   }
 
+//  @Test
+//  @PactTestFor(pactMethod = "noEventsExist")
+//  void getAllEvents_whenNoEventsExist(MockServer mockServer) {
+//    RestTemplate restTemplate = new RestTemplateBuilder()
+//        .rootUri(mockServer.getUrl())
+//        .build();
+//    List<Event> events = new EventService(restTemplate).getAllEvents();
+//
+//    assertEquals(Collections.emptyList(), events);
+//  }
+//
 //  @Test
 //  @PactTestFor(pactMethod = "eventDoesNotExist")
 //  void getEventById_whenEventWithId1111DoesNotExist(MockServer mockServer) {
