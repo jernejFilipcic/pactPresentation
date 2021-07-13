@@ -27,7 +27,6 @@ public class Controller {
     @GetMapping("events/{id}")
     public ResponseEntity<Event> getEventById(@PathVariable("id") String id) {
         Optional<Event> event = eventRepository.getById(id);
-
         return ResponseEntity.of(event);
     }
 }

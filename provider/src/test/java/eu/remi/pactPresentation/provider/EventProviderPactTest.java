@@ -20,7 +20,7 @@ import java.util.Optional;
 
 import static org.mockito.Mockito.when;
 
-@Provider("EventProvider")
+@Provider("MyProvider")
 @PactFolder("pacts")
 //@PactBroker(
 //    host = "localhost",

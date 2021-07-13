@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @ExtendWith(PactConsumerTestExt.class)
 public class EventConsumerPactTest {
 
-  @Pact(consumer = "FrontendApplication", provider = "EventProvider")
+  @Pact(consumer = "MyConsumer", provider = "MyProvider")
   RequestResponsePact getAllEvents(PactDslWithProvider builder) {
     return builder.given("events exist")
         .uponReceiving("get all events")
@@ -44,7 +44,7 @@ public class EventConsumerPactTest {
         .toPact();
   }
 
-  @Pact(consumer = "FrontendApplication", provider = "EventProvider")
+  @Pact(consumer = "MyConsumer", provider = "MyProvider")
   RequestResponsePact noEventsExist(PactDslWithProvider builder) {
     return builder.given("no events exist")
         .uponReceiving("get all events")
@@ -57,7 +57,7 @@ public class EventConsumerPactTest {
         .toPact();
   }
 
-  @Pact(consumer = "FrontendApplication", provider = "EventProvider")
+  @Pact(consumer = "MyConsumer", provider = "MyProvider")
   RequestResponsePact getOneEvent(PactDslWithProvider builder) {
     return builder.given("event with ID 1111 exists")
         .uponReceiving("get event with ID 1111")
@@ -74,7 +74,7 @@ public class EventConsumerPactTest {
         .toPact();
   }
 
-  @Pact(consumer = "FrontendApplication", provider = "EventProvider")
+  @Pact(consumer = "MyConsumer", provider = "MyProvider")
   RequestResponsePact eventDoesNotExist(PactDslWithProvider builder) {
     return builder.given("event with ID 2222 does not exist")
         .uponReceiving("get event with ID 2222")
